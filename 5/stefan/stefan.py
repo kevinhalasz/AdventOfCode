@@ -25,6 +25,15 @@ class Line:
         return self.start.x == self.end.x
 
     @property
+    def slope(self) -> float:
+        if self.is_horizontal:
+            return 0
+        if self.is_vertical:
+            return float("inf")
+
+        return (self.end.y - self.start.y) / (self.end.x - self.start.x)
+
+    @property
     def covered_points(self) -> Optional[list[Point]]:
         if self.is_horizontal:
             if self.start.x <= self.end.x:
@@ -45,7 +54,18 @@ class Line:
             return [Point(self.start.x, y) for y in range(start, end)]
 
         else:
-            return None
+            if self.start.x <= self.end.x:
+                x_start = self.start.x
+                y_start = self.start.y
+                x_end = self.end.x + 1
+            else:
+                x_start = self.end.x
+                y_start = self.end.y
+                x_end = self.start.x + 1
+            return [
+                Point(x_start + i, y_start + i * self.slope)
+                for i in range(x_end - x_start)
+            ]
 
     @classmethod
     def from_input(cls, input_line: str) -> Line:
