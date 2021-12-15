@@ -10,6 +10,7 @@ jupyterlab = "*"
 
 [dev-packages]
 black = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.9"
